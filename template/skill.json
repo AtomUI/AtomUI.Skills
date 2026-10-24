@@ -1,0 +1,29 @@
+{
+  "key": "<kebab-key>",
+  "category": "<WebOS 分类 Key，必须已创建并启用>",
+  "version": "1.0.0",
+  "author": "AtomUI",
+  "license": "MIT",
+  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/main/skills/<kebab-key>",
+  "tags": [],
+  "platforms": ["Windows", "macOS", "Linux"],
+  "agents": ["claude-code", "codex", "cursor"],
+  "priority": 1000,
+  "languages": {
+    "zh-Hans": {
+      "name": "<官网展示名>",
+      "summary": "<≤300 字符摘要>",
+      "description": "<Markdown ≤64KB，官网详情页主文>"
+    },
+    "zh-Hant": {
+      "name": "<官网展示名>",
+      "summary": "<≤300 字符摘要>",
+      "description": "<Markdown ≤64KB，官网详情页主文>"
+    },
+    "en": {
+      "name": "<Display name>",
+      "summary": "<≤300 chars；本字段投影为 frontmatter description>",
+      "description": "<Markdown ≤64KB>"
+    }
+  }
+}

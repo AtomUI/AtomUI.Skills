@@ -1,0 +1,7 @@
+# 审查归属：所有技能内容与仓库骨架变更均需 AtomUI 维护者审查
+* @AtomUI/maintainers
+
+# 规范是契约，改动需格外审慎
+/docs/standards/ @AtomUI/maintainers
+/template/       @AtomUI/maintainers
+/.github/        @AtomUI/maintainers

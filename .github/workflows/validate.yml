@@ -1,0 +1,77 @@
+name: validate
+
+on:
+  pull_request:
+    branches: [main, "release/**"]
+  push:
+    branches: [main, "release/**"]
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 权威规则在同步引擎的 SkillCatalogValidator（纯函数）。
+      # 独立校验 CLI 尚未实施，这里只做不依赖引擎的结构性检查；
+      # CLI 就绪后应整体替换为「与 SyncEngine 同源」的校验器，避免两套规则漂移。
+      - name: Structural checks
+        run: |
+          set -euo pipefail
+          fail() { echo "::error::$1"; exit 1; }
+
+          # 根文件
+          for f in README.md LICENSE .gitattributes skillshub.json; do
+            [ -f "$f" ] || fail "缺少根文件 $f"
+          done
+
+          # 文本文件 UTF-8 无 BOM
+          while IFS= read -r f; do
+            head -c 3 "$f" | grep -q $'\xEF\xBB\xBF' && fail "$f 含 UTF-8 BOM"
+          done < <(find . -type f \( -name '*.md' -o -name '*.json' -o -name '*.yml' -o -name '*.svg' \) -not -path './.git/*')
+
+          # LF 换行
+          if grep -rlI $'\r' --include='*.md' --include='*.json' --include='*.yml' --include='*.svg' . 2>/dev/null | grep -v '^\./\.git/' | grep -q .; then
+            fail "存在 CRLF 换行文件"
+          fi
+
+          # skillshub.json 可解析
+          python3 -c "import json,sys; json.load(open('skillshub.json'))" || fail "skillshub.json 非法 JSON"
+
+          # 逐技能目录
+          if [ -d skills ]; then
+            for dir in skills/*/; do
+              [ -d "$dir" ] || continue
+              key=$(basename "$dir")
+
+              echo "$key" | grep -Eq '^[A-Za-z_][A-Za-z0-9_]*$' || fail "Key '$key' 不符合 ^[A-Za-z_][A-Za-z0-9_]*\$"
+              [ "${#key}" -le 64 ] || fail "Key '$key' 超过 64 字符"
+
+              [ -f "$dir/skill.json" ] || fail "$key 缺少 skill.json"
+              [ -f "$dir/SKILL.md" ]    || fail "$key 缺少 SKILL.md"
+
+              python3 - "$dir" "$key" <<'PY'
+          import json, sys, re
+          directory, key = sys.argv[1], sys.argv[2]
+          manifest = json.load(open(directory + "skill.json"))
+          if manifest.get("key") != key:
+              sys.exit(f"skill.json.key ({manifest.get('key')!r}) 必须等于目录名 ({key!r})")
+          PY
+
+              # 安全条款：禁隐藏文件 / 可执行文件 / symlink
+              find "$dir" \( -name '.*' -o -type l \) | grep -q . && fail "$key 含隐藏文件或 symlink"
+              find "$dir" -type f \( -name '*.sh' -o -name '*.ps1' -o -name '*.exe' \
+                -o -name '*.bat' -o -name '*.cmd' -o -name '*.dll' -o -name '*.so' -o -name '*.dylib' \) \
+                | grep -q . && fail "$key 含可执行载荷"
+
+              # 资产扩展名与总量
+              if [ -d "$dir/assets" ]; then
+                find "$dir/assets" -type f ! \( -name '*.webp' -o -name '*.png' -o -name '*.svg' \) \
+                  | grep -q . && fail "$key/assets 含不允许的扩展名"
+                total=$(find "$dir/assets" -type f -exec stat -c%s {} + 2>/dev/null | awk '{s+=$1} END {print s+0}')
+                [ "$total" -le 2097152 ] || fail "$key/assets 超过 2MB"
+              fi
+            done
+          fi
+
+          echo "结构性检查通过"

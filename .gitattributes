@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.md   text eol=lf working-tree-encoding=UTF-8
+*.json text eol=lf working-tree-encoding=UTF-8
+*.yml  text eol=lf working-tree-encoding=UTF-8
+*.svg  text eol=lf working-tree-encoding=UTF-8
+
+*.webp binary
+*.png  binary

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "registry": {
+    "name": "AtomUI Skills",
+    "publisher": "AtomUI",
+    "homepage": "https://atomui.net"
+  },
+  "compat": {
+    "agentSkillsSpec": "^1",
+    "agents": ["claude-code", "codex", "cursor"]
+  },
+  "sync": {
+    "branch": "main",
+    "discovery": "skills/*/skill.json"
+  }
+}
