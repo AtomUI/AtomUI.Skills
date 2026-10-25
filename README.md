@@ -24,7 +24,7 @@ npx skills add AtomUI/AtomUI.Skills/skills/<Key>
 
 | Key | 名称 | 分类 | 版本 |
 | --- | --- | --- | --- |
-| _（暂无技能）_ | | | |
+| [`hello_world`](skills/hello_world) | Hello World 示例技能 | AtomUIOSS | 1.0.0 |
 
 ## 目录结构
 

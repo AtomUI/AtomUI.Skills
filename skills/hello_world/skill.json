@@ -1,0 +1,29 @@
+{
+  "key": "hello_world",
+  "category": "AtomUIOSS",
+  "version": "1.0.0",
+  "author": "AtomUI",
+  "license": "MIT",
+  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/main/skills/hello_world",
+  "tags": ["hello-world", "scaffolding", "conventions"],
+  "platforms": ["Windows", "macOS", "Linux"],
+  "agents": ["claude-code", "codex", "cursor"],
+  "priority": 1000,
+  "languages": {
+    "zh-Hans": {
+      "name": "Hello World 示例技能",
+      "summary": "用一个最小可运行技能演示 AtomUI Skills 的编写格式，教你怎么组织 SKILL.md 与 skill.json。",
+      "description": "## 这是什么\n\n`hello_world` 是本仓库的**样板技能**：它自身就是一个完整的、能通过全部校验的最小例子。\n\n## 它教什么\n\n- 一个技能的目录长什么样，各文件谁是权威\n- `key` 如何投影成 frontmatter 的 `name`\n- `skill.json` 与 SKILL.md frontmatter 的投影一致性\n- 编写规范里那些机器查不了、只能靠评审的软约束\n\n## 不教什么\n\n- AtomUI 组件用法（那是具体业务技能的事）\n- Agent 运行时行为（那是 SKILL.md 正文自身的约定）"
+    },
+    "zh-Hant": {
+      "name": "Hello World 範例技能",
+      "summary": "用一個最小可執行技能示範 AtomUI Skills 的編寫格式，教你怎麼組織 SKILL.md 與 skill.json。",
+      "description": "## 這是什麼\n\n`hello_world` 是本倉庫的**樣板技能**：它本身就是一個完整的、能通過全部校驗的最小例子。\n\n## 它教什麼\n\n- 一個技能的目錄長什麼樣，各檔案誰是權威\n- `key` 如何投影成 frontmatter 的 `name`\n- `skill.json` 與 SKILL.md frontmatter 的投影一致性\n\n## 不教什麼\n\n- AtomUI 元件用法（那是具體業務技能的事）\n- Agent 執行期行為（那是 SKILL.md 正文自身的約定）"
+    },
+    "en": {
+      "name": "Hello World",
+      "summary": "Demonstrates the AtomUI Skills authoring format with one minimal working skill (SKILL.md + skill.json). Use when learning the repository layout, the key-to-name projection, or creating a first skill in AtomUI.Skills. Covers scaffolding, metadata conventions and validation.",
+      "description": "## What this is\n\n`hello_world` is the repository's **reference skill**: it is itself a complete minimal example that passes every validation rule.\n\n## What it teaches\n\n- The shape of a skill directory and which file is authoritative\n- How `key` projects into the frontmatter `name`\n- Projection consistency between `skill.json` and the SKILL.md frontmatter\n- The soft authoring rules that CI cannot check and only review can\n\n## What it does not teach\n\n- AtomUI component usage (that belongs to domain skills)\n- Agent runtime behaviour (that is the SKILL.md body's own contract)"
+    }
+  }
+}
