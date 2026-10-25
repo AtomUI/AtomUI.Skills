@@ -7,10 +7,14 @@
   },
   "compat": {
     "agentSkillsSpec": "^1",
-    "agents": ["claude-code", "codex", "cursor"]
+    "agents": [
+      "claude-code",
+      "codex",
+      "cursor"
+    ]
   },
   "sync": {
-    "branch": "main",
+    "branch": "release/1.0",
     "discovery": "skills/*/skill.json"
   }
 }
