@@ -1,5 +1,5 @@
 ---
-summary: "技能研发规范 v1.0：SKILL.md frontmatter 写作、正文结构模板、尺寸预算、references 渐进披露、语言策略、质量流程与安全红线"
+summary: "技能研发规范 v1.0：SKILL.md frontmatter 写作、正文结构模板、尺寸预算、references 渐进披露、语言策略、质量流程与安全红线（含 catalog.json 收录与分类目录自检）"
 read_when:
   - 为 AtomUI.Skills 仓库编写、评审或修订技能内容（SKILL.md 正文）时阅读。
 title: "技能研发规范 正式标准"
@@ -7,7 +7,7 @@ title: "技能研发规范 正式标准"
 
 # 技能研发规范 正式标准
 
-> 状态：**标准 v1.0**（2026-10-24 定稿，首次发布）。SkillsHub 标准体系的内容层：[工程规范](./skillshub-engineering.md)管仓库、[结构与元信息描述](./skill-structure.md)管形态、[元信息描述](./skill-metadata.md)管 `skill.json`，本规范定义「技能内容怎么写、写多长、写到什么质量」。
+> 状态：**标准 v1.0**（2026-10-24 定稿；**2026-10-25 修订**：自检与机检项改为 catalog.json 收录 + 分类目录）。按仓库约定**不递增版本号**。SkillsHub 标准体系的内容层：[工程规范](./skillshub-engineering.md)管仓库、[结构与元信息描述](./skill-structure.md)管形态、[元信息描述](./skill-metadata.md)管 `skill.json`，本规范定义「技能内容怎么写、写多长、写到什么质量」。
 
 ## 业界基线
 
@@ -100,6 +100,8 @@ description 反例（业界通病）：`Helps with theming.`——没有 when、
 
 ## 质量流程（源自 Anthropic 评测驱动方法论）
 
+0. **先定分类再落目录**：技能放到 `skills/<category_key>/<Key>/`，并在根 `catalog.json` 的对应 `categories[].skills[]` 中登记（`key` + 显式 `priority`，可选 `text`）。**未被 `catalog.json` 收录的技能不上 atomui.net 前台**——写完技能忘登记等于没发布。
+
 1. **先评测后编写**：技能必须源于真实任务的失败——先跑 2–3 个代表性任务（如让 Agent 写一个 ControlTheme），观察它在哪违反 AtomUI 约定，针对失败点写规则。
 2. **从 Agent 视角迭代**：技能合入后观察实际使用轨迹（过度触发、漏触发、误读规则），把修正沉淀回正文；description 与正文行为不一致时**先改 description**（发现层优先）。
 3. **提交前自检清单**（CODEOWNERS 评审与 CI 校验共用）：
@@ -109,7 +111,8 @@ description 反例（业界通病）：`Helps with theming.`——没有 when、
    - [ ] 正文 <500 行；references/ 一层引用（如使用）
    - [ ] 外部链接仅 atomui.net / AtomUI GitHub
    - [ ] frontmatter 投影与 `skill.json` 一致（引擎校验兜底）
-   - [ ] 已声明 `category`，且该分类已在 WebOS 创建**并启用**（否则同步会失败）
+   - [ ] 技能已放进 `skills/<category_key>/<Key>/` 一层分类目录，且已在 `catalog.json` 中收录并归类
+   - [ ] 所用分类是 atomui.net 已创建**并启用**的顶层分类（否则同步会失败）
 
 ## 安全红线
 
@@ -131,8 +134,9 @@ description 反例（业界通病）：`Helps with theming.`——没有 when、
 | frontmatter 投影一致性校验（本规范依赖） | `SkillCatalogValidator` | 待实施（见工程规范 §实施状态） |
 | `references/` 目录解析、白名单（仅 .md）、纳入增量哈希与资产豁免 | `SkillCatalogParser` / `SkillCatalogValidator` | 待实施 |
 | CI 可机检项：description 长度、外链域名白名单、角色扮演开头黑名单 | 校验 CLI（工程规范 §实施状态） | 待实施 |
-| `category` 已声明的机检项（存在性/启用态需查 WebOS，仅本地 CI 不可检） | 校验 CLI + 同步执行器 | 待实施 |
-| `template/` 更新为含推荐章节模板的 SKILL.md 范本 | `AtomUI.Skills` 仓库初始化 | 待实施 |
+| 布局两层与 `catalog.json` 收录/归类一致性机检项 | 校验 CLI | 待实施 |
+| 分类存在性/启用态/顶层性（需查 WebOS，仅本地 CI 不可检） | 同步执行器 `SkillCategoryReferenceValidator` | 待实施 |
+| `template/` 更新为含分类目录与推荐章节模板的 SKILL.md 范本 | `AtomUI.Skills` 仓库初始化 | 待实施 |
 
 ## 测试矩阵
 

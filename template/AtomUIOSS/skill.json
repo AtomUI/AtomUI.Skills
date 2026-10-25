@@ -1,10 +1,9 @@
 {
-  "key": "<kebab-key>",
-  "category": "<WebOS 分类 Key，必须已创建并启用>",
+  "key": "<skill_key>",
   "version": "1.0.0",
   "author": "AtomUI",
   "license": "MIT",
-  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/main/skills/<kebab-key>",
+  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/main/skills/<category_key>/<skill_key>",
   "tags": [],
   "platforms": ["Windows", "macOS", "Linux"],
   "agents": ["claude-code", "codex", "cursor"],

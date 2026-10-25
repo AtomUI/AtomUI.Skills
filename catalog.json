@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "text": "AtomUI Skills",
+  "categories": [
+    {
+      "key": "AtomUIOSS",
+      "text": "AtomUIOSS",
+      "skills": [
+        {
+          "key": "hello_world",
+          "priority": 1000,
+          "text": "Hello World 示例技能"
+        }
+      ]
+    }
+  ]
+}

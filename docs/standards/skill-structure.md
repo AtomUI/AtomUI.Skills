@@ -1,5 +1,5 @@
 ---
-summary: "技能结构与 SKILL.md 元信息描述 v1.0：单技能目录布局、Key 与 name 投影、frontmatter 字段语义（基线=Agent Skills 开放标准）、references 与 assets 规则"
+summary: "技能结构与 SKILL.md 元信息描述 v1.0：一层分类目录与单技能目录布局、Key 与 name 投影、frontmatter 字段语义（基线=Agent Skills 开放标准）、references 与 assets 规则"
 read_when:
   - 编写、评审或校验单个技能的目录结构与 SKILL.md frontmatter 时阅读。
 title: "技能结构与 SKILL.md 元信息描述 正式标准"
@@ -7,7 +7,8 @@ title: "技能结构与 SKILL.md 元信息描述 正式标准"
 
 # 技能结构与 SKILL.md 元信息描述 正式标准
 
-> 状态：**标准 v1.0**（2026-10-24 定稿，首次发布）。与[SkillsHub 工程规范](./skillshub-engineering.md) 配套：工程规范管仓库整体，本规范管「一个技能长什么样」。校验规则总表与实施状态见工程规范，此处只定义结构与字段语义。
+> 状态：**标准 v1.0**（2026-10-24 定稿；**2026-10-25 修订**：技能前增加一层分类目录，`skill.json` 移除 `category`）。按仓库约定**不递增版本号**。
+> 与[SkillsHub 工程规范](./skillshub-engineering.md) 配套：工程规范管仓库整体（含 `catalog.json` 与分类规范），本规范管「一个技能长什么样」。校验规则总表与实施状态见工程规范，此处只定义结构与字段语义。
 
 ## 业界基线
 
@@ -22,30 +23,46 @@ SKILL.md 格式以 **Agent Skills 开放标准**（[agentskills.io/specification
 
 本规范不发明冲突格式：任何此处未规定的细节以开放标准为准；我们只做收紧（投影一致性）与本地化（Key 规范）。
 
-## 单技能目录结构
+> 分类目录层是 **AtomUI 站点侧**的组织约定，不进入 Agent Skills 开放标准的字段体系——它只影响路径，不影响 SKILL.md 与 `skill.json` 的语义。
+
+## 目录结构（一层分类）
 
 ```text
 skills/
-└── <Key>/                     # 目录名 = Key，AtomIdea 标识符规范 ^[A-Za-z_][A-Za-z0-9_]*$
-    ├── SKILL.md               # 必填；技能正文（给 Agent 读）+ 规范 frontmatter
-    ├── skill.json             # 必填；官网展示元信息（三语），见「技能元信息描述」
-    ├── references/            # 可选；仅 .md 长参考（渐进披露第三档，引擎待实施）
-    │   └── tokens.md
-    └── assets/
-        ├── cover.webp         # 列表卡封面（可选，建议 16:9）
-        └── icon.svg           # 图标（可选）
+└── <category_key>/                # 分类目录，恰好一层；= atomui.net 分类 Key
+    └── <Key>/                     # 技能目录名 = Key，^[A-Za-z_][A-Za-z0-9_]*$ ≤64
+        ├── SKILL.md               # 必填；技能正文（给 Agent 读）+ 规范 frontmatter
+        ├── skill.json             # 必填；官网展示元信息（三语），见「技能元信息描述」
+        ├── references/            # 可选；仅 .md 长参考（渐进披露第三档，引擎待实施）
+        │   └── tokens.md
+        └── assets/
+            ├── cover.webp         # 列表卡封面（可选，建议 16:9）
+            └── icon.svg           # 图标（可选）
 ```
+
+### 布局硬约束
+
+| 规则 | 说明 |
+|------|------|
+| 恰好两层 | 技能必须位于 `skills/<category_key>/<Key>/`；`skills/<Key>/`（缺分类层）与 `skills/<a>/<b>/<Key>/`（多一层）均校验失败（`LayoutDepth`） |
+| 分类目录名 | = 分类 Key，`^[A-Za-z_][A-Za-z0-9_]*$` ≤64；必须是 atomui.net 已定义且启用的**顶层**分类 |
+| 技能目录名 | = 技能 Key，`^[A-Za-z_][A-Za-z0-9_]*$` ≤64 |
+| 分类归属 | 由**目录路径的 `<category_key>` 段**表达，并由 `catalog.json` 声明；两者必须一致 |
+| 收录 | 技能是否上台由 `catalog.json` 决定；`skills/` 下存在但未收录的技能标记 `IsListed=false`，入库可查、前台不展示 |
+
+分类层数与分类 Key 值域的完整规则见[工程规范](./skillshub-engineering.md) §分类规范（atomui.net 强制）。
 
 ## Key 与目录名
 
-- `Key` 是系统级业务标识符：`^[A-Za-z_][A-Za-z0-9_]*$`（≤64），**不用短横线/点/中文**（AtomIdea 标识符规范，与 WebOS 分类 Key 同规范）。
-- 目录名必须与 `skill.json.key` 完全一致；仓库内唯一。
+- 技能 `Key` 是系统级业务标识符：`^[A-Za-z_][A-Za-z0-9_]*$`（≤64），**不用短横线/点/中文**（AtomIdea 标识符规范，与 WebOS 分类 Key 同规范）。
+- 技能目录名必须与 `skill.json.key` 完全一致；仓库内唯一。
+- **分类目录名不参与 `name` 投影**——`name` 只由技能 `Key` 推导，与所在分类无关（技能换分类不改 `name`，避免破坏业界工具的安装路径稳定性）。
 
 ## frontmatter `name` 投影
 
 - 投影规则：`Key` 经 `ToLowerInvariant()` 后把 `_` 替换为 `-`，满足业界 kebab-lowercase 惯例（例：`avalonia_theme_tokens` → `avalonia-theme-tokens`），同时满足开放标准 `name` 规则（小写字母/数字/短横线、不以短横线开头结尾、无连续短横线、≤64、与父目录对应——业界侧按目录名+投影一致性成立）。
-- **仓库内 `name` 唯一**：大小写不同的 Key 可能投影到同一 `name`（`My_Skill` 与 `my_skill` 都得 `my-skill`），校验按 name 冲突报错。
-- `name` 由目录名机器推导，**不手写**；命名从任务视角出发的写法建议见[技能研发规范](./skill-authoring.md)。
+- **仓库内 `name` 唯一**：大小写不同的 Key 可能投影到同一 `name`（`My_Skill` 与 `my_skill` 都得 `my-skill`），校验按 name 冲突报错。跨分类同样唯一。
+- `name` 由技能目录名机器推导，**不手写**；命名从任务视角出发的写法建议见[技能研发规范](./skill-authoring.md)。
 
 ## SKILL.md frontmatter 规范
 
@@ -67,9 +84,11 @@ license: MIT
 
 | 字段 | 必填 | 规则 |
 |------|------|------|
-| `name` | ✓ | ≡ Key 的 kebab 投影（见上）；仓库内唯一；≤64 |
+| `name` | ✓ | ≡ 技能 Key 的 kebab 投影（见上）；仓库内唯一；≤64 |
 | `description` | ✓ | ≡ `skill.json.languages.en.summary`（英文，≤300，天然满足业界 ≤1024 上限）；三要素写法见[技能研发规范](./skill-authoring.md) |
 | `license` | — | 若填，必须 ≡ `skill.json.license`（两侧同填或同空） |
+
+> `category` **不是** frontmatter 字段，也已从 `skill.json` 移除：分类归属由目录路径 + `catalog.json` 表达（见上）。这使 `skill.json` 与 `catalog.json` 字段不重叠，避免双写。
 
 ### 业界可选字段（透传，不校验）
 

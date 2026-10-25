@@ -23,33 +23,47 @@ license: MIT
 
 ## 工作流程
 
-1. 从 `template/` 复制一份，把目录名改成技能 `Key`。
+1. 从 `template/AtomUIOSS/` 复制其中的文件到 `skills/<category_key>/<skill_key>/`，两层目录名分别改成分类 Key 与技能 `Key`。
 2. 定 `Key`：`^[A-Za-z_][A-Za-z0-9_]*$`，≤64 字符，**用下划线不用短横线**（AtomIdea 标识符规范）。
    例：`avalonia_theme_tokens`，不是 `avalonia-theme-tokens`。
 3. 定 `name`：由 `Key` 机器推导，**不要手写**。规则是 `ToLowerInvariant()` 后把 `_` 换成 `-`。
    `avalonia_theme_tokens` → `avalonia-theme-tokens`。
-4. 填 `skill.json.category`：必须是**已在 WebOS 创建并启用**的分类 Key。留空、写错、或分类被禁用，该技能同步一律失败且报错不同。
-5. 填 `languages.en.summary`：≤300 字符，讲全三要素——做什么、何时用、边界关键词。
-6. 把 `en.summary` **原样**抄进 frontmatter 的 `description`。两者必须逐字一致。
-7. 写正文：按下节模板填，祈使句，可枚举的写成清单或表格。
-8. 自检：`key` ≡ 目录名；`name` ≡ Key 的 kebab 投影；`description` ≡ `en.summary`；`license` 两侧同填或同空。
+4. 定分类目录：`skills/<category_key>/` 的 `<category_key>` 必须是 **atomui.net 已创建并启用的顶层分类** Key。写错、分类不存在、被禁用，或目录多一层/少一层，同步一律失败且报错不同。
+5. 在根 `catalog.json` 的对应 `categories[].skills[]` 里登记本技能（`key` + 显式 `priority`，可选 `text`）。**没登记就不上 atomui.net 前台**——写完技能忘登记等于没发布。
+6. 填 `languages.en.summary`：≤300 字符，讲全三要素——做什么、何时用、边界关键词。
+7. 把 `en.summary` **原样**抄进 frontmatter 的 `description`。两者必须逐字一致。
+8. 写正文：按下节模板填，祈使句，可枚举的写成清单或表格。
+9. 自检：技能目录在恰好两层下；`key` ≡ 技能目录名；`catalog.json` 已登记且分类与目录路径一致；`name` ≡ Key 的 kebab 投影；`description` ≡ `en.summary`；`license` 两侧同填或同空。
 
 ## 示例
 
 目录：
 
 ```text
-skills/avalonia_theme_tokens/
+skills/AtomUIOSS/avalonia_theme_tokens/
 ├── SKILL.md
 └── skill.json
 ```
 
-`skill.json` 关键字段：
+根 `catalog.json` 登记：
+
+```json
+{
+  "schemaVersion": 1,
+  "categories": [
+    {
+      "key": "AtomUIOSS",
+      "skills": [{ "key": "avalonia_theme_tokens", "priority": 1000 }]
+    }
+  ]
+}
+```
+
+`skill.json` 关键字段（**无 `category`**——分类由目录路径 + `catalog.json` 表达）：
 
 ```json
 {
   "key": "avalonia_theme_tokens",
-  "category": "AtomUIOSS",
   "version": "1.0.0",
   "license": "MIT",
   "languages": {
@@ -87,7 +101,9 @@ license: MIT
 ## 边界情况
 
 - **大小写不同的 `Key` 会撞同一个 `name`**：`My_Skill` 与 `my_skill` 都投影成 `my-skill`。仓库内 `name` 必须唯一，起名前先全局搜一遍。
-- **`category` 是硬引用**：没有「归未分类」的降级路径。未声明、分类不存在、分类被禁用，三种情形分别报不同错误，运营要做的动作也不同。
+- **分类是 atomui.net 的强制规范**：`skills/<category_key>/` 的分类 Key 必须是 atomui.net 已定义且启用的**顶层**分类，仓库不得自造。分类不存在、被禁用、或引用了非顶层分类，分别报不同错误，运营要做的动作也不同。
+- **目录必须恰好两层**：`skills/<key>/`（少一层）与 `skills/<a>/<b>/<key>/`（多一层）都过不了校验。
+- **`catalog.json` 是收录清单**：技能不在其中就不上前台。`skills/` 下可以放草稿技能，登记进 `catalog.json` 才算发布。
 - **`references/` 目前不要提交**：格式规范已定，但引擎侧解析与哈希纳入尚未实施。
 - **正文只放 Agent 不知道的**：Markdown 语法、git 常规操作这类通用知识不要写，只写 AtomUI 特有约定、项目裁决、数值、反直觉规则。
 - **超长内容先删冗余**，再考虑拆 `references/`，最后才拆技能。正文软目标 < 500 行。

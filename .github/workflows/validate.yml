@@ -21,7 +21,7 @@ jobs:
           fail() { echo "::error::$1"; exit 1; }
 
           # 根文件
-          for f in README.md LICENSE .gitattributes skillshub.json; do
+          for f in README.md LICENSE .gitattributes skillshub.json catalog.json; do
             [ -f "$f" ] || fail "缺少根文件 $f"
           done
 
@@ -38,9 +38,35 @@ jobs:
           # skillshub.json 可解析
           python3 -c "import json,sys; json.load(open('skillshub.json'))" || fail "skillshub.json 非法 JSON"
 
+          # catalog 与物理两层布局的结构约定（完整语义仍以 SyncEngine 校验器为准）
+          python3 - <<'PY'
+          import json, pathlib, re, sys
+          root = pathlib.Path('.')
+          catalog = json.loads((root / 'catalog.json').read_text(encoding='utf-8'))
+          seen = set()
+          def key_ok(key):
+              return isinstance(key, str) and len(key) <= 64 and re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', key)
+          for category in catalog.get('categories', []):
+              category_key = category.get('key')
+              if not key_ok(category_key): sys.exit(f'非法分类 Key: {category_key!r}')
+              if len(category.get('text') or '') > 128: sys.exit('分类 text 超过128字符')
+              for item in category.get('skills', []):
+                  key = item.get('key')
+                  if not key_ok(key): sys.exit(f'非法技能 Key: {key!r}')
+                  if key in seen: sys.exit(f'catalog 重复 Key: {key}')
+                  seen.add(key)
+                  if len(item.get('text') or '') > 128: sys.exit(f'{key} 的 text 超过128字符')
+                  if not (root / 'skills' / category_key / key / 'skill.json').is_file():
+                      sys.exit(f'catalog 引用的路径不存在: skills/{category_key}/{key}/skill.json')
+          for category in (root / 'skills').iterdir():
+              if not category.is_dir(): continue
+              if not key_ok(category.name): sys.exit(f'非法分类目录: {category.name}')
+              if (category / 'skill.json').exists(): sys.exit('技能必须位于 skills/<category>/<key>/ 两层目录')
+          PY
+
           # 逐技能目录
           if [ -d skills ]; then
-            for dir in skills/*/; do
+            for dir in skills/*/*/; do
               [ -d "$dir" ] || continue
               key=$(basename "$dir")
 

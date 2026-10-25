@@ -15,6 +15,6 @@
   },
   "sync": {
     "branch": "release/1.0",
-    "discovery": "skills/*/skill.json"
+    "discovery": "skills/*/*/skill.json"
   }
 }
