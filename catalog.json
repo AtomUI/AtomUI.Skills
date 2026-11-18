@@ -12,6 +12,15 @@
           "text": "Hello World 示例技能"
         }
       ]
+    },
+    {
+      "key": "Development",
+      "skills": [
+        {
+          "key": "git_commit",
+          "priority": 1000
+        }
+      ]
     }
   ]
 }

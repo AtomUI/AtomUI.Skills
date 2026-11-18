@@ -1,0 +1,29 @@
+{
+  "key": "git_commit",
+  "version": "1.0.0",
+  "author": "AtomUI",
+  "license": "MIT",
+  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/release/1.0/skills/Development/git_commit",
+  "tags": [
+    "git",
+    "commit",
+    "conventional-commits"
+  ],
+  "languages": {
+    "zh-Hans": {
+      "name": "Git 提交",
+      "summary": "检查 Git 暂存改动，按仓库约定起草提交消息，并在用户明确授权后创建和核验本地提交。",
+      "description": "从实际暂存差异提炼提交意图，判断类型、范围和跨模块改动的写法。覆盖消息草拟、提交前验证、快照复核与授权后的本地提交。"
+    },
+    "zh-Hant": {
+      "name": "Git 提交",
+      "summary": "檢查 Git 暫存變更，依儲存庫慣例起草提交訊息，並在使用者明確授權後建立及核對本機提交。",
+      "description": "從實際暫存差異提煉提交目的，判斷類型、範圍和跨模組變更的寫法。涵蓋訊息起草、提交前驗證、快照複核與授權後的本機提交。"
+    },
+    "en": {
+      "name": "Git Commit",
+      "summary": "Drafts Git commit messages, checks the staged changes, and creates and verifies local commits when explicitly authorized. Use for “msg”, “commit msg”, “写提交信息”, “提交前检查”, “提交”, or “创建 commit” in a Git context.",
+      "description": "Infer commit intent from the actual staged diff. Choose the type and scope, write the message, verify the staged snapshot, and confirm the result of an explicitly authorized local commit."
+    }
+  }
+}

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+find_forbidden_line() {
+    LC_ALL=C awk 'index(tolower($0), "co-authored-by") && !line { line = NR }
+        END { if (line) print line }'
+}
+
+if [ "$#" -ne 1 ]; then
+    printf '%s\n' 'commit-msg: expected a message file or - for stdin.' >&2
+    exit 2
+fi
+
+if [ "$1" = - ]; then
+    line=$(find_forbidden_line) || exit 2
+elif [ -f "$1" ]; then
+    line=$(find_forbidden_line < "$1") || exit 2
+else
+    printf '%s\n' 'commit-msg: cannot read the message file.' >&2
+    exit 2
+fi
+
+if [ -n "$line" ]; then
+    printf 'commit-msg: Co-Authored-By is forbidden (line %s).\n' "$line" >&2
+    exit 1
+fi

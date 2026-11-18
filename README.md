@@ -49,6 +49,7 @@ npx skills add AtomUI/AtomUI.Skills/skills/<category_key>/<skill_key>
 | Key | 名称 | 分类 | 版本 | priority |
 | --- | --- | --- | --- | --- |
 | [`hello_world`](skills/AtomUIOSS/hello_world) | Hello World 示例技能 | AtomUIOSS | 1.0.0 | 1000 |
+| [`git_commit`](skills/Development/git_commit) | Git 提交 | Development | 1.0.0 | 1000 |
 
 ## 目录结构
 
@@ -60,6 +61,7 @@ AtomUI.Skills/
 ├── catalog.json       目录文件（收录 + 分类归属 + 顺序 + 前台白名单）
 ├── skillshub.json     仓库级清单（身份 / 兼容面 / 同步声明）
 ├── .github/           PR 契约校验与审查归属
+├── .githooks/         仓库提交消息钩子
 ├── template/          新技能模板（含分类目录示例）
 └── skills/            同步发现根（唯一发现单位）
     └── <category_key>/        分类目录，恰好一层
@@ -95,3 +97,13 @@ AtomUI.Skills/
 
 本仓库是**知识型技能目录**：只含 Markdown 与图片资产，**禁止脚本与可执行内容**。
 正文外链仅允许 `atomui.net` 与 `github.com/AtomUI*`，禁止远程指令与越权措辞。
+
+## 提交消息检查
+
+提交消息任何位置出现 `Co-Authored-By` 都会被拒绝，匹配忽略大小写。新检出可在仓库根目录启用本地钩子。已有钩子配置时，将本检查接入现有 `commit-msg` 钩子，保留原有检查。
+
+```bash
+git config --local core.hooksPath .githooks
+```
+
+CI 使用同一个检查拒绝 PR 和推送到 `main`、`release/**` 的违规提交。
