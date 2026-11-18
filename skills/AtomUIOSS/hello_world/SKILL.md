@@ -24,23 +24,21 @@ license: MIT
 ## 工作流程
 
 1. 从 `template/AtomUIOSS/` 复制其中的文件到 `skills/<category_key>/<skill_key>/`，两层目录名分别改成分类 Key 与技能 `Key`。
-2. 定 `Key`：`^[A-Za-z_][A-Za-z0-9_]*$`，≤64 字符，**用下划线不用短横线**（AtomIdea 标识符规范）。
-   例：`avalonia_theme_tokens`，不是 `avalonia-theme-tokens`。
-3. 定 `name`：由 `Key` 机器推导，**不要手写**。规则是 `ToLowerInvariant()` 后把 `_` 换成 `-`。
-   `avalonia_theme_tokens` → `avalonia-theme-tokens`。
+2. 定新技能的 `Key`。使用小写英文字母、数字和分隔单词的单个短横线，最多 64 字符，例如 `avalonia-theme-tokens`。
+3. 将同一个名称用于技能目录、`skill.json.key`、catalog 的技能 `key` 和 `SKILL.md` 的 `name`。已有的 `hello_world` 保留原 Key，客户端 `name` 仍为 `hello-world`。
 4. 定分类目录：`skills/<category_key>/` 的 `<category_key>` 必须是 **atomui.net 已创建并启用的顶层分类** Key。写错、分类不存在、被禁用，或目录多一层/少一层，同步一律失败且报错不同。
 5. 在根 `catalog.json` 的对应 `categories[].skills[]` 里登记本技能（`key` + 显式 `priority`，可选 `text`）。**没登记就不上 atomui.net 前台**——写完技能忘登记等于没发布。
 6. 填 `languages.en.summary`：≤300 字符，讲全三要素——做什么、何时用、边界关键词。
 7. 把 `en.summary` **原样**抄进 frontmatter 的 `description`。两者必须逐字一致。
 8. 写正文：按下节模板填，祈使句，可枚举的写成清单或表格。
-9. 自检：技能目录在恰好两层下；`key` ≡ 技能目录名；`catalog.json` 已登记且分类与目录路径一致；`name` ≡ Key 的 kebab 投影；`description` ≡ `en.summary`；`license` 两侧同填或同空。
+9. 自检时核对两层目录、catalog 的分类和登记，以及新技能的目录名、`key` 和 `name` 是否一致。`description` 逐字等于 `en.summary`，`license` 两侧同填或同空。
 
 ## 示例
 
 目录：
 
 ```text
-skills/AtomUIOSS/avalonia_theme_tokens/
+skills/AtomUIOSS/avalonia-theme-tokens/
 ├── SKILL.md
 └── skill.json
 ```
@@ -53,7 +51,7 @@ skills/AtomUIOSS/avalonia_theme_tokens/
   "categories": [
     {
       "key": "AtomUIOSS",
-      "skills": [{ "key": "avalonia_theme_tokens", "priority": 1000 }]
+      "skills": [{ "key": "avalonia-theme-tokens", "priority": 1000 }]
     }
   ]
 }
@@ -63,7 +61,7 @@ skills/AtomUIOSS/avalonia_theme_tokens/
 
 ```json
 {
-  "key": "avalonia_theme_tokens",
+  "key": "avalonia-theme-tokens",
   "version": "1.0.0",
   "license": "MIT",
   "languages": {
@@ -100,7 +98,7 @@ license: MIT
 
 ## 边界情况
 
-- **大小写不同的 `Key` 会撞同一个 `name`**：`My_Skill` 与 `my_skill` 都投影成 `my-skill`。仓库内 `name` 必须唯一，起名前先全局搜一遍。
+- **旧 Key 会占用投影后的 `name`**。例如 `My_Skill` 已经使用 `my-skill`，新技能起名前应检查仓库里的 `name` 是否重复。
 - **分类是 atomui.net 的强制规范**：`skills/<category_key>/` 的分类 Key 必须是 atomui.net 已定义且启用的**顶层**分类，仓库不得自造。分类不存在、被禁用、或引用了非顶层分类，分别报不同错误，运营要做的动作也不同。
 - **目录必须恰好两层**：`skills/<key>/`（少一层）与 `skills/<a>/<b>/<key>/`（多一层）都过不了校验。
 - **`catalog.json` 是收录清单**：技能不在其中就不上前台。`skills/` 下可以放草稿技能，登记进 `catalog.json` 才算发布。

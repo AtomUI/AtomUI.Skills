@@ -80,15 +80,18 @@ jobs:
           root = pathlib.Path('.')
           catalog = json.loads((root / 'catalog.json').read_text(encoding='utf-8'))
           seen = set()
-          def key_ok(key):
+          def category_key_ok(key):
               return isinstance(key, str) and len(key) <= 64 and re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', key)
+          def skill_key_ok(key):
+              return isinstance(key, str) and len(key) <= 64 and re.fullmatch(
+                  r'[A-Za-z_][A-Za-z0-9_]*|[a-z0-9]+(?:-[a-z0-9]+)*', key)
           for category in catalog.get('categories', []):
               category_key = category.get('key')
-              if not key_ok(category_key): sys.exit(f'非法分类 Key: {category_key!r}')
+              if not category_key_ok(category_key): sys.exit(f'非法分类 Key: {category_key!r}')
               if len(category.get('text') or '') > 128: sys.exit('分类 text 超过128字符')
               for item in category.get('skills', []):
                   key = item.get('key')
-                  if not key_ok(key): sys.exit(f'非法技能 Key: {key!r}')
+                  if not skill_key_ok(key): sys.exit(f'非法技能 Key: {key!r}')
                   if key in seen: sys.exit(f'catalog 重复 Key: {key}')
                   seen.add(key)
                   if len(item.get('text') or '') > 128: sys.exit(f'{key} 的 text 超过128字符')
@@ -96,8 +99,11 @@ jobs:
                       sys.exit(f'catalog 引用的路径不存在: skills/{category_key}/{key}/skill.json')
           for category in (root / 'skills').iterdir():
               if not category.is_dir(): continue
-              if not key_ok(category.name): sys.exit(f'非法分类目录: {category.name}')
+              if not category_key_ok(category.name): sys.exit(f'非法分类目录: {category.name}')
               if (category / 'skill.json').exists(): sys.exit('技能必须位于 skills/<category>/<key>/ 两层目录')
+              for directory in category.iterdir():
+                  if directory.is_dir() and not skill_key_ok(directory.name):
+                      sys.exit(f'非法技能目录: {directory.name}')
           PY
 
           # 逐技能目录
@@ -105,9 +111,6 @@ jobs:
             for dir in skills/*/*/; do
               [ -d "$dir" ] || continue
               key=$(basename "$dir")
-
-              echo "$key" | grep -Eq '^[A-Za-z_][A-Za-z0-9_]*$' || fail "Key '$key' 不符合 ^[A-Za-z_][A-Za-z0-9_]*\$"
-              [ "${#key}" -le 64 ] || fail "Key '$key' 超过 64 字符"
 
               [ -f "$dir/skill.json" ] || fail "$key 缺少 skill.json"
               [ -f "$dir/SKILL.md" ]    || fail "$key 缺少 SKILL.md"

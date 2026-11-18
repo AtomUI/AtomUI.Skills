@@ -14,11 +14,11 @@ title: "技能元信息描述 正式标准"
 
 ```json
 {
-  "key": "avalonia_theme_tokens",
+  "key": "avalonia-theme-tokens",
   "version": "1.0.0",
   "author": "AtomUI",
   "license": "MIT",
-  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/main/skills/AtomUIOSS/avalonia_theme_tokens",
+  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/main/skills/AtomUIOSS/avalonia-theme-tokens",
   "tags": ["theme", "tokens"],
   "platforms": ["Windows", "macOS", "Linux"],
   "agents": ["claude-code", "codex", "cursor"],
@@ -37,7 +37,7 @@ title: "技能元信息描述 正式标准"
 
 | 字段 | 必填 | 约束与语义 |
 |------|------|------------|
-| `key` | ✓ | `^[A-Za-z_][A-Za-z0-9_]*$` ≤64；与技能目录名一致；仓库内唯一 |
+| `key` | ✓ | 新技能使用小写短横线格式，已有 Key 继续支持。≤64，和目录名一致，仓库内唯一。见[技能结构规范](./skill-structure.md#key-与目录名)。 |
 | `version` | — | 展示用；建议 semver；内容变更须递增（软约定，CI 可检查） |
 | `author` | — | 展示用 |
 | `license` | — | 展示用；与仓库级许可对应；是 frontmatter `license` 的投影源 |
@@ -97,7 +97,7 @@ title: "技能元信息描述 正式标准"
 
 | frontmatter 字段 | 投影源 | 规则 |
 |------------------|--------|------|
-| `name` | `key` | 技能 Key 的 kebab-lowercase 投影（见[技能结构与元信息描述](./skill-structure.md)） |
+| `name` | `key` | 新技能与 Key 相同，已有技能继续使用旧投影。见[技能结构规范](./skill-structure.md)。 |
 | `description` | `languages.en.summary` | 逐字一致 |
 | `license` | `license` | 两侧同填或同空 |
 

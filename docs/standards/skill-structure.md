@@ -21,7 +21,7 @@ SKILL.md 格式以 **Agent Skills 开放标准**（[agentskills.io/specification
 | Google | Gemini CLI 采纳同一标准，技能跨 Claude Code / Codex / Gemini 不改可装 | 可移植性验证 |
 | OpenClaw | 同一 SKILL.md 底座 + `metadata.openclaw` 扩展（`requires`/`install`/`os`）；发布时校验「声明元数据 vs 实际行为」一致性 | 扩展字段放 `metadata` 命名空间的先例 |
 
-本规范不发明冲突格式：任何此处未规定的细节以开放标准为准；我们只做收紧（投影一致性）与本地化（Key 规范）。
+新技能采用开放标准的名称格式。已有技能延续旧 Key 及其 frontmatter 投影。
 
 > 分类目录层是 **AtomUI 站点侧**的组织约定，不进入 Agent Skills 开放标准的字段体系——它只影响路径，不影响 SKILL.md 与 `skill.json` 的语义。
 
@@ -30,7 +30,7 @@ SKILL.md 格式以 **Agent Skills 开放标准**（[agentskills.io/specification
 ```text
 skills/
 └── <category_key>/                # 分类目录，恰好一层；= atomui.net 分类 Key
-    └── <Key>/                     # 技能目录名 = Key，^[A-Za-z_][A-Za-z0-9_]*$ ≤64
+    └── <Key>/                     # 技能目录名 = 技能 Key
         ├── SKILL.md               # 必填；技能正文（给 Agent 读）+ 规范 frontmatter
         ├── skill.json             # 必填；官网展示元信息（三语），见「技能元信息描述」
         ├── references/            # 可选；仅 .md 长参考（渐进披露第三档，引擎待实施）
@@ -46,7 +46,7 @@ skills/
 |------|------|
 | 恰好两层 | 技能必须位于 `skills/<category_key>/<Key>/`；`skills/<Key>/`（缺分类层）与 `skills/<a>/<b>/<Key>/`（多一层）均校验失败（`LayoutDepth`） |
 | 分类目录名 | = 分类 Key，`^[A-Za-z_][A-Za-z0-9_]*$` ≤64；必须是 atomui.net 已定义且启用的**顶层**分类 |
-| 技能目录名 | = 技能 Key，`^[A-Za-z_][A-Za-z0-9_]*$` ≤64 |
+| 技能目录名 | = 技能 Key。新技能使用小写短横线格式，旧 Key 继续支持。 |
 | 分类归属 | 由**目录路径的 `<category_key>` 段**表达，并由 `catalog.json` 声明；两者必须一致 |
 | 收录 | 技能是否上台由 `catalog.json` 决定；`skills/` 下存在但未收录的技能标记 `IsListed=false`，入库可查、前台不展示 |
 
@@ -54,15 +54,15 @@ skills/
 
 ## Key 与目录名
 
-- 技能 `Key` 是系统级业务标识符：`^[A-Za-z_][A-Za-z0-9_]*$`（≤64），**不用短横线/点/中文**（AtomIdea 标识符规范，与 WebOS 分类 Key 同规范）。
-- 技能目录名必须与 `skill.json.key` 完全一致；仓库内唯一。
-- **分类目录名不参与 `name` 投影**——`name` 只由技能 `Key` 推导，与所在分类无关（技能换分类不改 `name`，避免破坏业界工具的安装路径稳定性）。
+- 新技能 `Key` 符合 `^[a-z0-9]+(?:-[a-z0-9]+)*$`，长度为 1–64。例如 `git-commit`。
+- 同步与仓库校验仍接受符合 `^[A-Za-z_][A-Za-z0-9_]*$` 的已有 Key，例如 `hello_world`，长度上限同为 64。
+- 技能目录名、`skill.json.key` 和 `catalog.json` 中的技能 Key 必须一致，仓库内唯一。分类目录只是技能的归属层。
 
 ## frontmatter `name` 投影
 
-- 投影规则：`Key` 经 `ToLowerInvariant()` 后把 `_` 替换为 `-`，满足业界 kebab-lowercase 惯例（例：`avalonia_theme_tokens` → `avalonia-theme-tokens`），同时满足开放标准 `name` 规则（小写字母/数字/短横线、不以短横线开头结尾、无连续短横线、≤64、与父目录对应——业界侧按目录名+投影一致性成立）。
-- **仓库内 `name` 唯一**：大小写不同的 Key 可能投影到同一 `name`（`My_Skill` 与 `my_skill` 都得 `my-skill`），校验按 name 冲突报错。跨分类同样唯一。
-- `name` 由技能目录名机器推导，**不手写**；命名从任务视角出发的写法建议见[技能研发规范](./skill-authoring.md)。
+- 新技能的 `name` 与 `Key`、技能目录名逐字一致。
+- 已有技能沿用旧投影，将 Key 转小写并把 `_` 替换为 `-`，例如 `hello_world` → `hello-world`。按开放标准分发时，使用与 `name` 相同的安装目录名。
+- `name` 在仓库内唯一。旧 Key `hello_world` 的投影已经占用 `hello-world`，新技能应选用其他名称。命名建议见[技能研发规范](./skill-authoring.md)。
 
 ## SKILL.md frontmatter 规范
 
@@ -84,7 +84,7 @@ license: MIT
 
 | 字段 | 必填 | 规则 |
 |------|------|------|
-| `name` | ✓ | ≡ 技能 Key 的 kebab 投影（见上）；仓库内唯一；≤64 |
+| `name` | ✓ | 新技能与 Key 一致。已有技能按旧规则投影（见上）。仓库内唯一，≤64。 |
 | `description` | ✓ | ≡ `skill.json.languages.en.summary`（英文，≤300，天然满足业界 ≤1024 上限）；三要素写法见[技能研发规范](./skill-authoring.md) |
 | `license` | — | 若填，必须 ≡ `skill.json.license`（两侧同填或同空） |
 

@@ -17,7 +17,7 @@
       "key": "Development",
       "skills": [
         {
-          "key": "git_commit",
+          "key": "git-commit",
           "priority": 1000
         }
       ]

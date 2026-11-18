@@ -1,9 +1,9 @@
 {
-  "key": "git_commit",
+  "key": "git-commit",
   "version": "1.0.0",
   "author": "AtomUI",
   "license": "MIT",
-  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/release/1.0/skills/Development/git_commit",
+  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/release/1.0/skills/Development/git-commit",
   "tags": [
     "git",
     "commit",

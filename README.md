@@ -48,8 +48,8 @@ npx skills add AtomUI/AtomUI.Skills/skills/<category_key>/<skill_key>
 
 | Key | 名称 | 分类 | 版本 | priority |
 | --- | --- | --- | --- | --- |
-| [`hello_world`](skills/AtomUIOSS/hello_world) | Hello World 示例技能 | AtomUIOSS | 1.0.0 | 1000 |
-| [`git_commit`](skills/Development/git_commit) | Git 提交 | Development | 1.0.0 | 1000 |
+| [`hello_world`](skills/AtomUIOSS/hello_world) | Hello World 示例技能 | AtomUIOSS | 1.0.1 | 1000 |
+| [`git-commit`](skills/Development/git-commit) | Git 提交 | Development | 1.0.0 | 1000 |
 
 ## 目录结构
 
@@ -74,8 +74,7 @@ AtomUI.Skills/
 
 ## 新增技能
 
-1. 从 `template/AtomUIOSS/` 复制其中的文件到 `skills/<category_key>/<skill_key>/`，两层目录名分别改成分类 Key 与技能 `Key`
-   （`^[A-Za-z_][A-Za-z0-9_]*$`，≤64，**用下划线不用短横线**）。
+1. 从 `template/AtomUIOSS/` 复制文件到 `skills/<category_key>/<skill_key>/`。分类目录使用已定义的分类 Key。新技能的目录名、`skill.json.key`、`catalog.json` 中的 `key` 和 `SKILL.md` 的 `name` 用同一个小写短横线名称，例如 `git-commit`，最多 64 字符。已有技能保留旧 Key。
 2. 按[技能研发规范](docs/standards/skill-authoring.md)填 `SKILL.md` 与 `skill.json`。
 3. 在根 `catalog.json` 的对应 `categories[].skills[]` 登记（`key` + 显式 `priority`，可选 `text`）。
 

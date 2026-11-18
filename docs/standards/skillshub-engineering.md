@@ -67,8 +67,8 @@ AtomUI.Skills/
 
 - 发现单位：`skills/<category_key>/<skill_key>/skill.json`；`template/` 与根文件不参与发现。
 - **布局硬约束**：技能必须在 `skills/<category>/<key>/` 两层之下；`skills/<key>/`（缺分类层）与 `skills/<a>/<b>/<key>/`（多一层）均校验失败。
-- `category_key` = 分类 Key，`skill_key` = 技能 Key，两者均遵循 `^[A-Za-z_][A-Za-z0-9_]*$` ≤64，且目录名 = 对应声明值。
-- 技能 `Key` 是系统级业务标识符，frontmatter `name` 由 Key 投影（kebab-lowercase）——细则见[技能结构与元信息描述](./skill-structure.md)。
+- `category_key` 使用分类标识符格式 `^[A-Za-z_][A-Za-z0-9_]*$`。新 `skill_key` 使用小写短横线格式 `^[a-z0-9]+(?:-[a-z0-9]+)*$`，同步继续接受已有标识符格式。两者长度均为 1–64，目录名与各自的声明一致。
+- 新技能的 frontmatter `name` 与技能 Key 相同。已有技能仍按旧规则投影。细则见[技能结构与元信息描述](./skill-structure.md)。
 - 同步分支固定取配置 `Modules:AiResources:Skills:Branch`（默认 `main`）；`skillshub.json.sync.branch` 仅是声明性默认，不覆盖服务端配置。
 - 文本文件 UTF-8（无 BOM）、LF。
 
@@ -88,7 +88,7 @@ AtomUI.Skills/
       "text": "AtomUI 开源项目",
       "skills": [
         { "key": "hello_world", "priority": 1000, "text": "Hello World 示例技能" },
-        { "key": "avalonia_theme_tokens", "priority": 900 }
+        { "key": "avalonia-theme-tokens", "priority": 900 }
       ]
     }
   ]

@@ -33,7 +33,7 @@ title: "技能研发规范 正式标准"
 
 | 字段 | 写作规则 | 示例 |
 |------|----------|------|
-| `name` | = Key 的 kebab 投影（机器生成，不手写）。命名从**任务视角**出发：动词或动名词开头（`review-avalonia-style`、`migrate-theme-tokens`），避免 `helper`/`utils`/`tool` 这类无信息词 | `avalonia-theme-tokens` |
+| `name` | 新技能与 Key 和目录名相同。命名从任务视角出发，可用动词或动名词开头，如 `review-avalonia-style`。已有技能沿用旧投影。 | `avalonia-theme-tokens` |
 | `description` | 英文、第三人称、一句话讲全**三要素**：①做什么（what）②何时用（when，触发场景/用户意图关键词）③边界关键词（帮助 Agent 检索命中）。≤300（我们的收紧，天然满足业界 1024） | `Applies AtomUI theme token conventions (palette, sizing, spacing, dark-mode rules) when writing or reviewing Avalonia XAML styles and ControlThemes. Use for theming, token lookups, or dark-mode questions.` |
 | `license` | 与仓库级一致（`MIT`）；不逐技能改 | `MIT` |
 | `compatibility` | 仅当有真实环境前提才填（如「Requires .NET 8 SDK」）；知识型技能通常不填 | — |
