@@ -55,14 +55,14 @@ skills/
 ## Key 与目录名
 
 - 新技能 `Key` 符合 `^[a-z0-9]+(?:-[a-z0-9]+)*$`，长度为 1–64。例如 `git-commit`。
-- 同步与仓库校验仍接受符合 `^[A-Za-z_][A-Za-z0-9_]*$` 的已有 Key，例如 `hello_world`，长度上限同为 64。
+- 同步与仓库校验仍接受符合 `^[A-Za-z_][A-Za-z0-9_]*$` 的旧格式 Key，例如 `legacy_skill`，长度上限同为 64。
 - 技能目录名、`skill.json.key` 和 `catalog.json` 中的技能 Key 必须一致，仓库内唯一。分类目录只是技能的归属层。
 
 ## frontmatter `name` 投影
 
 - 新技能的 `name` 与 `Key`、技能目录名逐字一致。
-- 已有技能沿用旧投影，将 Key 转小写并把 `_` 替换为 `-`，例如 `hello_world` → `hello-world`。按开放标准分发时，使用与 `name` 相同的安装目录名。
-- `name` 在仓库内唯一。旧 Key `hello_world` 的投影已经占用 `hello-world`，新技能应选用其他名称。命名建议见[技能研发规范](./skill-authoring.md)。
+- 旧格式 Key 沿用旧投影，将 Key 转小写并把 `_` 替换为 `-`，例如 `legacy_skill` → `legacy-skill`。按开放标准分发时，使用与 `name` 相同的安装目录名。
+- `name` 在仓库内唯一，含旧 Key 投影后的名称。命名建议见[技能研发规范](./skill-authoring.md)。
 
 ## SKILL.md frontmatter 规范
 

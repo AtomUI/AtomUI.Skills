@@ -87,8 +87,7 @@ AtomUI.Skills/
       "key": "AtomUIOSS",
       "text": "AtomUI 开源项目",
       "skills": [
-        { "key": "hello_world", "priority": 1000, "text": "Hello World 示例技能" },
-        { "key": "avalonia-theme-tokens", "priority": 900 }
+        { "key": "avalonia-theme-tokens", "priority": 900, "text": "Avalonia 主题 Token" }
       ]
     }
   ]

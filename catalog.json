@@ -3,21 +3,14 @@
   "text": "AtomUI Skills",
   "categories": [
     {
-      "key": "AtomUIOSS",
-      "text": "AtomUIOSS",
-      "skills": [
-        {
-          "key": "hello_world",
-          "priority": 1000,
-          "text": "Hello World 示例技能"
-        }
-      ]
-    },
-    {
       "key": "Development",
       "skills": [
         {
           "key": "git-commit",
+          "priority": 1000
+        },
+        {
+          "key": "upgrade-atomui-package-references",
           "priority": 1000
         }
       ]

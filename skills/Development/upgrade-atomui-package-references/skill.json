@@ -1,0 +1,30 @@
+{
+  "key": "upgrade-atomui-package-references",
+  "version": "1.0.0",
+  "author": "AtomUI",
+  "license": "MIT",
+  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/release/1.0/skills/Development/upgrade-atomui-package-references",
+  "tags": [
+    "atomui",
+    "nuget",
+    "dependency-upgrade",
+    "api-break"
+  ],
+  "languages": {
+    "zh-Hans": {
+      "name": "升级项目引用的 AtomUI 包",
+      "summary": "仅用于 AtomUI 框架源码仓库以外的下游项目，覆盖「请升级 AtomUI 到最新版本」及相关 NuGet 引用升级和 API Break 迁移。",
+      "description": "从消费项目发现实际版本配置、包源和验证入口。逐版读取上游发布的 API Break 文档，将适用的迁移动作落实到项目，并验证实际还原和消费结果。"
+    },
+    "zh-Hant": {
+      "name": "升級專案引用的 AtomUI 套件",
+      "summary": "僅用於 AtomUI 框架原始碼儲存庫以外的下游專案，涵蓋「請升級 AtomUI 到最新版本」及相關 NuGet 引用升級與 API Break 遷移。",
+      "description": "從消費專案找出實際版本設定、套件來源和驗證入口。逐版讀取上游發布的 API Break 文件，將適用的遷移步驟落實到專案，並驗證實際還原與消費結果。"
+    },
+    "en": {
+      "name": "Upgrade AtomUI Package References",
+      "summary": "Use only for AtomUI NuGet dependency upgrades and API Break migrations in downstream projects outside the AtomUI framework source repository, including “upgrade AtomUI to the latest version” or “请升级 AtomUI 到最新版本”.",
+      "description": "Discover the consuming project's effective version configuration, feeds, and verification entry points. Read each upstream release's API Break guide across the upgrade range, apply the relevant migrations, and verify the restored packages and their consumers."
+    }
+  }
+}
