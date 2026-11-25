@@ -2,7 +2,7 @@
 
 [English](README.en.md)
 
-面向 AtomUI 生态开发的 AI 编程助手技能库。提供 Git 提交消息起草、下游项目的 AtomUI 依赖升级与 API 迁移等工作流。
+面向 AtomUI 生态开发的 AI 编程助手技能库。提供 Git 提交消息起草、代码注释检查与补齐，以及下游项目的 AtomUI 依赖升级与 API 迁移工作流。
 
 技能遵循 Agent Skills 开放规范，支持 Claude Code、Codex 和 Cursor。 [Agent Skills 规范](https://agentskills.io/specification)
 
@@ -38,6 +38,9 @@ npx skills add AtomUI/AtomUI.Skills --skill git-commit
 | --- | --- | --- | --- |
 | [`git-commit`](skills/Development/git-commit/SKILL.md) | 检查 Git 暂存改动，按仓库约定起草提交消息，并在用户明确授权后创建和核验本地提交。 | `Development` | 1.0.0 |
 | [`upgrade-atomui-package-references`](skills/Development/upgrade-atomui-package-references/SKILL.md) | 仅用于 AtomUI 框架源码仓库以外的下游项目，覆盖「请升级 AtomUI 到最新版本」及相关 NuGet 引用升级和 API Break 迁移。 | `Development` | 1.0.0 |
+| [`review-and-fix-atomui-ecosystem-code-comments`](skills/Development/review-and-fix-atomui-ecosystem-code-comments/SKILL.md) | 检查并补齐 AtomUI 及生态项目中的源码注释，覆盖公开 API、控件与主题契约、实现说明和提交前暂存审查。 | `Development` | 1.0.0 |
+
+[AtomUI 源码注释规范（1.0 详细参考）](skills/Development/review-and-fix-atomui-ecosystem-code-comments/references/atomui-code-comment-guidelines.md)
 
 ## 贡献指南
 

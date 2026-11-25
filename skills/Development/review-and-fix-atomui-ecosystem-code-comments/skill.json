@@ -1,0 +1,30 @@
+{
+  "key": "review-and-fix-atomui-ecosystem-code-comments",
+  "version": "1.0.0",
+  "author": "AtomUI",
+  "license": "MIT",
+  "repositoryUrl": "https://github.com/AtomUI/AtomUI.Skills/tree/release/1.0/skills/Development/review-and-fix-atomui-ecosystem-code-comments",
+  "tags": [
+    "atomui",
+    "code-comments",
+    "xml-documentation",
+    "code-review"
+  ],
+  "languages": {
+    "zh-Hans": {
+      "name": "AtomUI 及生态项目的代码注释检查与补齐",
+      "summary": "检查并补齐 AtomUI 及生态项目中的源码注释，覆盖公开 API、控件与主题契约、实现说明和提交前暂存审查。",
+      "description": "从目标仓库发现注释规则，用实际声明和行为核对 C#、AXAML、测试和脚本注释。按授权执行只读检查或注释修订，并按实际使用的源码版本验证结果。"
+    },
+    "zh-Hant": {
+      "name": "AtomUI 及生態專案的程式碼註解檢查與補齊",
+      "summary": "檢查並補齊 AtomUI 及生態專案中的原始碼註解，涵蓋公開 API、控制項與主題契約、實作說明及提交前暫存審查。",
+      "description": "從目標儲存庫找出註解規則，依實際宣告與行為核對 C#、AXAML、測試和指令碼註解。依授權執行唯讀檢查或註解修訂，再根據實際使用的原始碼版本驗證結果。"
+    },
+    "en": {
+      "name": "Review and Fix Code Comments in the AtomUI Ecosystem",
+      "summary": "Use when reviewing or fixing source comments in AtomUI and its ecosystem projects, including missing XML documentation, control and theme contracts, or staged pre-commit comment reviews.",
+      "description": "Find the target project's comment rules and check C#, AXAML, test, and build script comments against actual declarations and behavior. Review or fix comments within the requested scope and verify the source snapshot under review."
+    }
+  }
+}

@@ -2,7 +2,7 @@
 
 [简体中文](README.md)
 
-A collection of skills for AI coding assistants working in the AtomUI ecosystem. Draft Git commit messages, upgrade AtomUI dependencies in consuming projects, and apply API migrations.
+A collection of skills for AI coding assistants working in the AtomUI ecosystem. Draft Git commit messages, review and fix code comments, upgrade AtomUI dependencies in consuming projects, and apply API migrations.
 
 The skills follow the Agent Skills open standard and support Claude Code, Codex, and Cursor. [Agent Skills specification](https://agentskills.io/specification)
 
@@ -38,6 +38,9 @@ Pass a skill name from the table below to `--skill`. It matches the `name` field
 | --- | --- | --- | --- |
 | [`git-commit`](skills/Development/git-commit/SKILL.md) | Drafts Git commit messages, checks the staged changes, and creates and verifies local commits when explicitly authorized. Use for “msg”, “commit msg”, “写提交信息”, “提交前检查”, “提交”, or “创建 commit” in a Git context. | `Development` | 1.0.0 |
 | [`upgrade-atomui-package-references`](skills/Development/upgrade-atomui-package-references/SKILL.md) | Use only for AtomUI NuGet dependency upgrades and API Break migrations in downstream projects outside the AtomUI framework source repository, including “upgrade AtomUI to the latest version” or “请升级 AtomUI 到最新版本”. | `Development` | 1.0.0 |
+| [`review-and-fix-atomui-ecosystem-code-comments`](skills/Development/review-and-fix-atomui-ecosystem-code-comments/SKILL.md) | Use when reviewing or fixing source comments in AtomUI and its ecosystem projects, including missing XML documentation, control and theme contracts, or staged pre-commit comment reviews. | `Development` | 1.0.0 |
+
+[AtomUI source comment guidelines (v1.0 reference, Chinese)](skills/Development/review-and-fix-atomui-ecosystem-code-comments/references/atomui-code-comment-guidelines.md)
 
 ## Contributing
 

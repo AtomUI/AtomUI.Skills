@@ -12,6 +12,10 @@
         {
           "key": "upgrade-atomui-package-references",
           "priority": 1000
+        },
+        {
+          "key": "review-and-fix-atomui-ecosystem-code-comments",
+          "priority": 1000
         }
       ]
     }
